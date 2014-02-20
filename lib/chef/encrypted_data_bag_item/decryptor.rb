@@ -17,7 +17,8 @@
 #
 
 require 'yaml'
-require 'yajl'
+#require 'yajl'
+require 'multi_json'
 require 'openssl'
 require 'base64'
 require 'digest/sha2'
@@ -121,12 +122,14 @@ class Chef::EncryptedDataBagItem
       end
 
       def for_decrypted_item
-        Yajl::Parser.parse(decrypted_data)["json_wrapper"]
-      rescue Yajl::ParseError
+        #Yajl::Parser.parse(decrypted_data)["json_wrapper"]
+        MultiJson.load(decrypted_data)["json_wrapper"]
+      #rescue Yajl::ParseError
+      rescue MultiJson::LoadError
         # convert to a DecryptionFailure error because the most likely scenario
         # here is that the decryption step was unsuccessful but returned bad
         # data rather than raising an error.
-        raise DecryptionFailure, "Error decrypting data bag value. Most likely the provided key is incorrect"
+        raise JSON::DecryptionFailure, "Error decrypting data bag value. Most likely the provided key is incorrect"
       end
 
       def encrypted_bytes

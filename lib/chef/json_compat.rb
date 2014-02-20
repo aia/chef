@@ -18,7 +18,8 @@
 # Wrapper class for interacting with JSON.
 
 require 'json'
-require 'yajl'
+#require 'yajl'
+require 'multi_json'
 
 class Chef
   class JSONCompat
@@ -53,7 +54,8 @@ class Chef
 
       # Just call the JSON gem's parse method with a modified :max_nesting field
       def from_json(source, opts = {})
-        obj = ::Yajl::Parser.parse(source)
+        #obj = ::Yajl::Parser.parse(source)
+        obj = MultiJson.load(source)
 
         # JSON gem requires top level object to be a Hash or Array (otherwise
         # you get the "must contain two octets" error). Yajl doesn't impose the

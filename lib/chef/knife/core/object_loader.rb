@@ -83,7 +83,8 @@ class Chef
         def object_from_file(filename)
           case filename
           when /\.(js|json)$/
-            r = Yajl::Parser.parse(IO.read(filename))
+            #r = Yajl::Parser.parse(IO.read(filename))
+            r = MultiJson.load(IO.read(filename))
 
             # Chef::DataBagItem doesn't work well with the json_create method
             if @klass == Chef::DataBagItem

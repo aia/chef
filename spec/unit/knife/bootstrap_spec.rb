@@ -94,8 +94,10 @@ describe Chef::Knife::Bootstrap do
     @knife.instance_variable_set("@template_file", @knife.config[:template_file])
     template_string = @knife.read_template
     @knife.parse_options(["-j", '{"foo":{"bar":"baz"}}'])
-    expected_hash = Yajl::Parser.new.parse('{"foo":{"bar":"baz"},"run_list":[]}')
-    actual_hash = Yajl::Parser.new.parse(@knife.render_template(template_string))
+    #expected_hash = Yajl::Parser.new.parse('{"foo":{"bar":"baz"},"run_list":[]}')
+    expected_hash = MultiJson.load('{"foo":{"bar":"baz"},"run_list":[]}')
+    #actual_hash = Yajl::Parser.new.parse(@knife.render_template(template_string))
+    actual_hash = MultiJson.load(@knife.render_template(template_string))
     actual_hash.should == expected_hash
   end
 

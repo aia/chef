@@ -28,7 +28,8 @@ Gem::Specification.new do |s|
 
   # The JSON gem reliably releases breaking changes as a patch release
   s.add_dependency "json", ">= 1.4.4", "<=  1.8.1"
-  s.add_dependency "yajl-ruby", "~> 1.1"
+  s.add_dependency 'multi_json', '~> 1.0'
+  s.add_dependency "jruby-pageant"
   s.add_dependency "net-ssh", "~> 2.6"
   s.add_dependency "net-ssh-multi", "~> 1.1"
   # CHEF-3027: The knife-cloud plugins require newer features from highline, core chef should not.
